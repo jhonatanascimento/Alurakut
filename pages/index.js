@@ -39,6 +39,18 @@ export default function Home() {
       id: "111131231233313",
       title: "ê Mundão",
       image: "https://picsum.photos/200/300"
+    },
+    {
+      id: "111131231233314",
+      title: "Steam",
+      image:
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Steam_icon_logo.svg/512px-Steam_icon_logo.svg.png"
+    },
+    {
+      id: "111131231233314",
+      title: "Rap",
+      image:
+        "https://i.pinimg.com/originals/e6/13/0e/e6130ef38cdad94f78e944ff5fd90cd9.jpg"
     }
   ]);
   const usuarioAleatorio = "jhonatanascimento";
@@ -144,6 +156,13 @@ export default function Home() {
                 );
               })}
             </ul>
+          </ProfileRelationsBoxWrapper>
+          <ProfileRelationsBoxWrapper>
+            <h2 className="smallTitle">GIF</h2>
+            <img
+              style={{ height: "40em" }}
+              src="https://media1.tenor.com/images/652d5c4ba6f53c7e2c6b9c48fab16e65/tenor.gif?itemid=22353384"
+            />
           </ProfileRelationsBoxWrapper>
         </div>
       </MainGrid>
