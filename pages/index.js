@@ -33,6 +33,28 @@ function ProfileSidebar(propriedades) {
   );
 }
 
+function ProfileRelationsBox(propriedades) {
+  return (
+    <ProfileRelationsBoxWrapper>
+      <h2 className="smallTitle">
+        {propriedades.title} ({propriedades.items.length})
+      </h2>
+      <ul>
+        {/* {seguidores.map((itemAtual) => {
+                return (
+                  <li key={itemAtual}>
+                    <a href={`/users/https://github.com/${itemAtual}.png`}>
+                      <img src={itemAtual.image} />
+                      <span>{itemAtual.title}</span>
+                    </a>
+                  </li>
+                );
+              })} */}
+      </ul>
+    </ProfileRelationsBoxWrapper>
+  );
+}
+
 export default function Home() {
   const [comunidades, setComunidades] = React.useState([
     {
@@ -47,7 +69,7 @@ export default function Home() {
         "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Steam_icon_logo.svg/512px-Steam_icon_logo.svg.png"
     },
     {
-      id: "111131231233314",
+      id: "1111312312333146",
       title: "Rap",
       image:
         "https://i.pinimg.com/originals/e6/13/0e/e6130ef38cdad94f78e944ff5fd90cd9.jpg"
@@ -63,6 +85,20 @@ export default function Home() {
     "marcobrunodev",
     "felipefialho"
   ];
+
+  //o pegar o array de dados do github
+
+  const [seguidores, setSeguidores] = React.useState([]);
+
+  React.useEffect(function () {
+    fetch("https://api.github.com/users/jhonatanascimento/followers")
+      .then(function (respostaDoServidor) {
+        return respostaDoServidor.json();
+      })
+      .then(function (respostaCompleta) {
+        setSeguidores(respostaCompleta);
+      });
+  }, []);
 
   return (
     <>
@@ -157,6 +193,8 @@ export default function Home() {
               })}
             </ul>
           </ProfileRelationsBoxWrapper>
+
+          <ProfileRelationsBox title="Seguidores" items={seguidores} />
           <ProfileRelationsBoxWrapper>
             <h2 className="smallTitle">GIF</h2>
             <img
