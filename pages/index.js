@@ -39,17 +39,18 @@ function ProfileRelationsBox(propriedades) {
       <h2 className="smallTitle">
         {propriedades.title} ({propriedades.items.length})
       </h2>
+
       <ul>
-        {/* {seguidores.map((itemAtual) => {
-                return (
-                  <li key={itemAtual}>
-                    <a href={`/users/https://github.com/${itemAtual}.png`}>
-                      <img src={itemAtual.image} />
-                      <span>{itemAtual.title}</span>
-                    </a>
-                  </li>
-                );
-              })} */}
+        {propriedades.items.map((itemAtual) => {
+          return (
+            <li key={itemAtual.id}>
+              <a href={`/users/https://github.com/${itemAtual}.png`}>
+                <img src={itemAtual.avatar_url} />
+                <span>{itemAtual.login}</span>
+              </a>
+            </li>
+          );
+        })}
       </ul>
     </ProfileRelationsBoxWrapper>
   );
@@ -135,13 +136,38 @@ export default function Home() {
                 console.log("Campo:", dadosDoForm.get("image"));
 
                 const comunidade = {
-                  id: new Date().toISOString,
                   title: dadosDoForm.get("title"),
-                  image: dadosDoForm.get("image")
+                  imageUrl: dadosDoForm.get("image")
                 };
-                console.log(e);
-                const comunidadesAtualizadas = [...comunidades, comunidade];
-                setComunidades(comunidadesAtualizadas);
+
+                fetch("/api/comunidades", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json"
+                  },
+                  body: JSON.stringify(comunidade)
+                }).then(async (response) => {
+                  const dados = await response.json();
+                  console.log(dados.registroCriado);
+                  const comunidade = dados.registroCriado;
+                  const comunidadesAtualizadas = [...comunidades, comunidade];
+                  setComunidades(comunidadesAtualizadas);
+                });
+
+                /*
+                       fetch('/api/comunidades', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify(comunidade)
+                })
+                .then(async (response) => {
+                  const dados = await response.json();
+                  console.log(dados.registroCriado); */
+
+                // const comunidadesAtualizadas = [...comunidades, comunidade];
+                // setComunidades(comunidadesAtualizadas);
               }}
             >
               <div>
@@ -183,6 +209,8 @@ export default function Home() {
               })}
             </ul>
           </ProfileRelationsBoxWrapper>
+
+          <ProfileRelationsBox title="Seguidores" items={seguidores} />
           <ProfileRelationsBoxWrapper>
             <h2 className="smallTitle">
               Pessoas da comunidade ({pessoasFavoritas.length})
@@ -202,7 +230,6 @@ export default function Home() {
             </ul>
           </ProfileRelationsBoxWrapper>
 
-          <ProfileRelationsBox title="Seguidores" items={seguidores} />
           <ProfileRelationsBoxWrapper>
             <h2 className="smallTitle">GIF</h2>
             <img
