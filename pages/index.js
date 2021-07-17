@@ -56,25 +56,7 @@ function ProfileRelationsBox(propriedades) {
 }
 
 export default function Home() {
-  const [comunidades, setComunidades] = React.useState([
-    {
-      id: "111131231233313",
-      title: "ê Mundão",
-      image: "https://picsum.photos/200/300"
-    },
-    {
-      id: "111131231233314",
-      title: "Steam",
-      image:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Steam_icon_logo.svg/512px-Steam_icon_logo.svg.png"
-    },
-    {
-      id: "1111312312333146",
-      title: "Rap",
-      image:
-        "https://i.pinimg.com/originals/e6/13/0e/e6130ef38cdad94f78e944ff5fd90cd9.jpg"
-    }
-  ]);
+  const [comunidades, setComunidades] = React.useState([]);
   const usuarioAleatorio = "jhonatanascimento";
   // const comunidades = reac;
   const pessoasFavoritas = [
@@ -97,6 +79,32 @@ export default function Home() {
       })
       .then(function (respostaCompleta) {
         setSeguidores(respostaCompleta);
+      });
+
+    //API GraphQL
+    fetch("https://graphql.datocms.com/", {
+      method: "POST",
+      headers: {
+        Authorization: "c81cb4f72c5de4807aff7f5cde1a1b",
+        "Content-Type": "pplication/json",
+        Accept: "application/json"
+      },
+      body: JSON.stringify({
+        query: `query {
+                  allCommunities {
+                    id
+                    title
+                    imageUrl
+                  
+                  }
+                }`
+      })
+    })
+      .then((response) => response.json())
+      .then((respostaCompleta) => {
+        const comunidadesVindasDoDato = respostaCompleta.data.allCommunities;
+        console.log(comunidadesVindasDoDato);
+        setComunidades(comunidadesVindasDoDato);
       });
   }, []);
 
@@ -167,7 +175,7 @@ export default function Home() {
                 return (
                   <li key={itemAtual.id}>
                     <a href={`/users/${itemAtual.title}`}>
-                      <img src={itemAtual.image} />
+                      <img src={itemAtual.imageUrl} />
                       <span>{itemAtual.title}</span>
                     </a>
                   </li>
