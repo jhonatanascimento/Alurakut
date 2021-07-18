@@ -74,8 +74,9 @@ export default function Home(props) {
   //o pegar o array de dados do github
 
   const [seguidores, setSeguidores] = React.useState([]);
+
   React.useEffect(function () {
-    fetch(`https://api.github.com/users/${props.githubUser}/followers`)
+    fetch("https://api.github.com/users/jhonatanascimento/followers")
       .then(function (respostaDoServidor) {
         return respostaDoServidor.json();
       })
@@ -87,31 +88,28 @@ export default function Home(props) {
     fetch("https://graphql.datocms.com/", {
       method: "POST",
       headers: {
-        Authorization: "c81cb4f72c5de4807aff7f5cde1a1b",
-        "Content-Type": "application/json",
+        Authorization: "786bd4f7a9411cf8b6783e9687a09e",
+        "Content-Type": "pplication/json",
         Accept: "application/json"
       },
       body: JSON.stringify({
         query: `query {
-        allCommunities {
-          id 
-          title
-          imageUrl
-         
-        }
-      }`
+                  allCommunities {
+                    id
+                    title
+                    imageUrl
+                  
+                  }
+                }`
       })
     })
-      .then((response) => response.json()) // Pega o retorno do response.json() e já retorna
+      .then((response) => response.json())
       .then((respostaCompleta) => {
         const comunidadesVindasDoDato = respostaCompleta.data.allCommunities;
         console.log(comunidadesVindasDoDato);
         setComunidades(comunidadesVindasDoDato);
       });
-    // .then(function (response) {
-    //   return response.json()
-    // })
-  });
+  }, []);
 
   return (
     <>
