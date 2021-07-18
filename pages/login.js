@@ -17,7 +17,12 @@ export default function LoginScreen() {
       }}
     >
       <div className="loginScreen">
-        <section className="logoArea">
+        <section
+          className="logoArea"
+          style={{
+            background: "rgba(255, 255, 255, 0.8)"
+          }}
+        >
           <img src="https://alurakut.vercel.app/logo.svg" />
 
           <p>
@@ -36,6 +41,9 @@ export default function LoginScreen() {
 
         <section className="formArea">
           <form
+            style={{
+              background: "rgba(255, 255, 255, 0.8)"
+            }}
             className="box"
             onSubmit={(infosDoEvento) => {
               infosDoEvento.preventDefault();
@@ -72,7 +80,13 @@ export default function LoginScreen() {
             <button type="submit">Login</button>
           </form>
 
-          <footer className="box">
+          <footer
+            className="box"
+            style={{
+              background: "rgba(0, 0, 0, 0.8)",
+              color: "white"
+            }}
+          >
             <p>
               Ainda não é membro? <br />
               <a href="/login">
