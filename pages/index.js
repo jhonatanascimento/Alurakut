@@ -74,9 +74,8 @@ export default function Home(props) {
   //o pegar o array de dados do github
 
   const [seguidores, setSeguidores] = React.useState([]);
-
   React.useEffect(function () {
-    fetch("https://api.github.com/users/jhonatanascimento/followers")
+    fetch(`https://api.github.com/users/${props.githubUser}/followers`)
       .then(function (respostaDoServidor) {
         return respostaDoServidor.json();
       })
@@ -89,27 +88,30 @@ export default function Home(props) {
       method: "POST",
       headers: {
         Authorization: "c81cb4f72c5de4807aff7f5cde1a1b",
-        "Content-Type": "pplication/json",
+        "Content-Type": "application/json",
         Accept: "application/json"
       },
       body: JSON.stringify({
         query: `query {
-                  allCommunities {
-                    id
-                    title
-                    imageUrl
-                  
-                  }
-                }`
+        allCommunities {
+          id 
+          title
+          imageUrl
+         
+        }
+      }`
       })
     })
-      .then((response) => response.json())
+      .then((response) => response.json()) // Pega o retorno do response.json() e já retorna
       .then((respostaCompleta) => {
         const comunidadesVindasDoDato = respostaCompleta.data.allCommunities;
         console.log(comunidadesVindasDoDato);
         setComunidades(comunidadesVindasDoDato);
       });
-  }, []);
+    // .then(function (response) {
+    //   return response.json()
+    // })
+  });
 
   return (
     <>
